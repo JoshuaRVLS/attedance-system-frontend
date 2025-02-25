@@ -1,21 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  @apply pt-16;
+  color: #EEEEEE;
+  width: 100dvw;
+  height: 100dvh;
+  box-sizing: border-box;
+  background: #222831;
+  user-select: none;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+link {
+  @apply text-primary;
+}
+
