@@ -6,12 +6,15 @@ import axios from "axios";
 const Menu = ({
   students,
   setStudents,
+  selectedClass,
+  setSelectedClass,
 }: {
   students: Student[] | null;
   setStudents: React.Dispatch<React.SetStateAction<Student[] | null>>;
+  selectedClass: string;
+  setSelectedClass: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [studentClasses, setStudentClasses] = useState<Class[]>([]);
-  const [selectedClass, setSelectedClass] = useState<string>("");
 
   const getClasses = async () => {
     try {
@@ -29,30 +32,6 @@ const Menu = ({
   useEffect(() => {
     getClasses();
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        if (!selectedClass) {
-          const response = await axios.get(
-            "http://192.168.100.7:8000/api/v1/students"
-          );
-          if (response.status === 200) {
-            setStudents(response.data);
-          }
-        } else {
-          const response = await axios.get(
-            `http://192.168.100.7:8000/api/v1/classes/${selectedClass}`
-          );
-          if (response.status === 200) {
-            setStudents(response.data.users);
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, [selectedClass, setStudents]);
 
   return (
     <div className="font-montserrat font-light border rounded-md border-secondary h-[80dvh] min-w-[13rem] shadow-xl p-4 flex flex-col gap-4 items-center justify-between">
