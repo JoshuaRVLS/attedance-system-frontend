@@ -4,6 +4,7 @@ import useSocketIO from "../contexts/SocketIOContext";
 import { Student } from "../types/student";
 import axios from "axios";
 import { Howl } from "howler";
+import Loading from "./Loading";
 
 const LatestScannedStudent = () => {
   const { lastStudent, setLastStudent } = useSocketIO()!;
@@ -28,9 +29,7 @@ const LatestScannedStudent = () => {
   return (
     <div className="relative font-montserrat pt-8 flex shadow-lg rounded-lg border border-secondary items-center flex-col min-h-[80dvh] min-w-96 max-w-[40rem]">
       {!studentData ? (
-        <div className="p-2 font-montserrat font-semibold text-2xl items-center flex">
-          <span>Scanned Student will be shown here.</span>
-        </div>
+        <Loading duration={0.5} text="Waiting for scanned student" />
       ) : (
         <div className="flex w-full flex-col items-center">
           <Image
