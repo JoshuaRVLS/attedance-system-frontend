@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Class } from "../types/class";
-import { Student } from "../types/student";
 import axios from "axios";
+import { HiEye, HiEyeOff, HiShare } from "react-icons/hi";
+import { generateCSV } from "../utils/csv";
+import { useStudentStore } from "../stores/studentStore";
+import { useSelectedClassStore } from "../stores/selectedClassStore";
 
 const Menu = ({
-  students,
-  setStudents,
-  selectedClass,
-  setSelectedClass,
+  showQR,
+  setShowQR,
 }: {
-  students: Student[] | null;
-  setStudents: React.Dispatch<React.SetStateAction<Student[] | null>>;
-  selectedClass: string;
-  setSelectedClass: React.Dispatch<React.SetStateAction<string>>;
+  showQR: boolean;
+  setShowQR: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [studentClasses, setStudentClasses] = useState<Class[]>([]);
+  const { selectedClass, setSelectedClass } = useSelectedClassStore();
+  const { students } = useStudentStore();
 
   const getClasses = async () => {
     try {
@@ -59,10 +60,24 @@ const Menu = ({
               </div>
             ))}
       </div>
-      <div className="flex-col flex gap-2">
-        <span>
-          Yang Hadir: {students?.filter((student) => student.isPresent).length}{" "}
-          / {students?.length}
+      <div className="flex-col flex gap-2 items-center">
+        <div
+          onClick={() => generateCSV(students!, "students.csv")}
+          className="p-3 rounded-md bg-primary border border-primary cursor-pointer flex gap-2 hover:opacity-80"
+        >
+          <HiShare size={25} />
+          <span>Export Data to CSV</span>
+        </div>
+        <div
+          onClick={() => setShowQR((prev) => !prev)}
+          className="p-3 rounded-md bg-primary border border-primary cursor-pointer flex gap-2 hover:opacity-80"
+        >
+          {showQR ? <HiEye size={25} /> : <HiEyeOff size={25} />}
+          <span>{showQR ? "Hide" : "Show"} QR</span>
+        </div>
+        <span className="rounded-full p-3 bg-secondary text-primary font-semibold font-roboto shadow-xl border border-primary">
+          Hadir: {students?.filter((student) => student.isPresent).length} /{" "}
+          {students?.length}
         </span>
       </div>
     </div>
