@@ -1,25 +1,48 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Student } from "../types/student";
 import Image from "next/image";
 // import { HiDownload, HiTrash, HiPencil } from 'react-icons/hi';
 import { useQRCode } from "next-qrcode";
+import { AnimatePresence, motion } from "motion/react";
+import { HiCheckCircle, HiXCircle } from "react-icons/hi";
+import ShowPhoto from "./ShowPhoto";
 
-const StudentCard = ({ student }: { student: Student }) => {
+const StudentCard = ({
+  student,
+  showQR,
+}: {
+  student: Student;
+  showQR: boolean;
+}) => {
   const { Canvas } = useQRCode();
+  const [showPhoto, setShowPhoto] = useState<boolean>(false);
 
   return (
-    <div className="flex flex-col font-montserrat relative justify-center rounded-md items-start gap-2 bg-primary p-2 shadow-lg border border-secondary">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0, transition: { delay: 0.5 } }}
+      exit={{ opacity: 0, y: 20 }}
+      className="flex flex-col font-montserrat relative justify-center rounded-md items-start gap-2 bg-primary p-2 shadow-lg border border-secondary"
+    >
+      {showPhoto && (
+        <ShowPhoto
+          setShowPhoto={setShowPhoto}
+          data={student.photo.data}
+          mimetype={student.photo.mimetype}
+        />
+      )}
       <div className="flex justify-between w-full items-center gap-2">
         <div className="flex gap-2 items-center">
           <Image
-            className="border-black shadow-lg border object-cover rounded-full size-12"
+            className="shadow-lg object-cover rounded-full size-14"
             src={`data:${student.photo.mimetype};base64,${Buffer.from(
               student.photo.data
             ).toString("base64")}`}
-            width={50}
-            height={50}
+            onClick={() => setShowPhoto(true)}
+            width={70}
+            height={70}
             alt="profile_photo"
           />
           <div className="flex flex-col">
@@ -31,25 +54,40 @@ const StudentCard = ({ student }: { student: Student }) => {
         </div>
         <div className="flex gap-2 items-center">
           <div
-            className={`border p-2 rounded-md ${
-              student.isPresent ? "bg-green-500" : "bg-red-500"
+            className={`border p-1 rounded-lg ${
+              student.isPresent
+                ? "text-green-400 border-green-400"
+                : "text-red-400 border-red-400"
             }`}
           >
-            <span className="font-montserrat font-semibold">
-              {student.isPresent ? "Sudah Hadir" : "Belum Hadir"}
-            </span>
+            {student.isPresent ? (
+              <HiCheckCircle size={25} />
+            ) : (
+              <HiXCircle size={25} />
+            )}
           </div>
-          <Canvas
-            text={student.id}
-            options={{
-              width: 100,
-            }}
-          />
+          <AnimatePresence>
+            {showQR && (
+              <motion.div
+                exit={{ opacity: 0, height: 0 }}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+              >
+                <Canvas
+                  text={student.id}
+                  options={{
+                    width: 100,
+                    type: "image/png",
+                  }}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
       {/* Student Status */}
-    </div>
+    </motion.div>
   );
 };
 
