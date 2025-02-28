@@ -3,6 +3,8 @@
 import axios from "axios";
 import { FormEvent, useState, useEffect } from "react";
 import { Class } from "@/app/types/class";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function NewStudent() {
   const [firstName, setFirstName] = useState<string>("");
@@ -10,6 +12,7 @@ export default function NewStudent() {
   const [studentClasses, setStudentClasses] = useState<Class[]>([]);
   const [selectedClass, setSelectedClass] = useState<string>("");
   const [file, setFile] = useState<Blob>();
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,8 +35,11 @@ export default function NewStudent() {
     );
 
     if (response.status === 201) {
-      console.log(response.data);
-      alert("Success");
+      toast.success("Student added successfully", {
+        duration: 3000,
+        position: "top-center",
+      });
+      router.push("/dashboard");
     }
   };
 
@@ -55,9 +61,21 @@ export default function NewStudent() {
   }, []);
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2 text-black">
+    <div className="flex w-full font-montserrat gap-12 h-full justify-center items-center flex-col">
+      <div className="flex flex-col gap-2 items-center">
+        <h1 className="text-6xl">Add New Student</h1>
+        <small className="font-extralight font-sans text-lg">
+          This features is only for debugging and wont be used in production
+        </small>
+      </div>
+      <form
+        onSubmit={handleSubmit}
+        autoComplete="off"
+        autoCorrect="off"
+        className="flex flex-col gap-2 text-black"
+      >
         <input
+          className="p-4 font-montserrat stroke-none text-lg"
           required
           placeholder="Nama Depan"
           type="text"
@@ -66,6 +84,7 @@ export default function NewStudent() {
           onChange={(e) => setFirstName(e.target.value)}
         />
         <input
+          className="p-3 font-montserrat stroke-none text-lg"
           required
           placeholder="Nama Belakang"
           type="text"
@@ -91,7 +110,10 @@ export default function NewStudent() {
           name="file"
           onChange={(e) => setFile(e.target.files?.[0])}
         />
-        <button className="text-white" type="submit">
+        <button
+          className="text-white bg-primary shadow-xl p-4 mt-4 border border-secondary transition-all duration-300 hover:opacity-80"
+          type="submit"
+        >
           Submit
         </button>
       </form>
