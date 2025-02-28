@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import axios from "axios";
+import { Toaster } from "react-hot-toast";
 
 axios.defaults.withCredentials = true;
-
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,9 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`font-roboto antialiased`}
-      >
+      <body className={`font-roboto antialiased`}>
+        <Toaster />
         {children}
       </body>
     </html>
