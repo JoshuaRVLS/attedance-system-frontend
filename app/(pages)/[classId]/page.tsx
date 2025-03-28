@@ -3,6 +3,7 @@
 import React from "react";
 
 const FormPage = ({ params }: { params: Promise<{ classId: string }> }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { classId } = React.use(params);
 
   return (
