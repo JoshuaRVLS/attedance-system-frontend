@@ -11,7 +11,7 @@ const SocketIOProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<typeof Socket | null>(null);
 
   useEffect(() => {
-    const newSocket = io("http://192.168.100.7:8000");
+    const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}:8000`);
     newSocket.on("connect", () => {
       console.log("connected");
       setSocket(newSocket);

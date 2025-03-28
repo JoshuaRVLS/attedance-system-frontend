@@ -1,4 +1,4 @@
 export interface Class {
-    id: string;
-    value: string;
+  id: string;
+  value: string;
 }

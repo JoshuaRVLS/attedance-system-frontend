@@ -85,7 +85,6 @@ const StudentCard = ({
           </AnimatePresence>
         </div>
       </div>
-
       {/* Student Status */}
     </motion.div>
   );

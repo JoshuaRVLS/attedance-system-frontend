@@ -2,14 +2,14 @@
 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import StudentCard from "../components/StudentCard";
-import useSocketIO from "../contexts/SocketIOContext";
-import LatestScannedStudent from "../components/LatestScannedStudent";
-import Menu from "../components/Menu";
+import StudentCard from "../../components/StudentCard";
+import useSocketIO from "../../contexts/SocketIOContext";
+import LatestScannedStudent from "../../components/LatestScannedStudent";
+import Menu from "../../components/Menu";
 import { motion, AnimatePresence } from "motion/react";
-import Loading from "../components/Loading";
-import { useStudentStore } from "../stores/studentStore";
-import { useSelectedClassStore } from "../stores/selectedClassStore";
+import Loading from "../../components/Loading";
+import { useStudentStore } from "../../stores/studentStore";
+import { useSelectedClassStore } from "../../stores/selectedClassStore";
 
 export default function Dashboard() {
   const { students, setStudents } = useStudentStore();
@@ -21,8 +21,8 @@ export default function Dashboard() {
     try {
       const response = await axios.get(
         selectedClass
-          ? `http://192.168.100.7:8000/api/v1/classes/${selectedClass}`
-          : `http://192.168.100.7:8000/api/v1/students`
+          ? `${process.env.NEXT_PUBLIC_API_URL}:8000/api/v1/classes/${selectedClass}`
+          : `${process.env.NEXT_PUBLIC_API_URL}:8000/api/v1/students`
       );
       if (response.status === 200) {
         setStudents(selectedClass ? response.data.users : response.data);
