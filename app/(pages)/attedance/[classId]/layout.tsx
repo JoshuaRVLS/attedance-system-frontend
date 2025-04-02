@@ -3,13 +3,11 @@ import axios from "axios";
 import { Class } from "@/app/types/class";
 
 type Props = {
-  params: {
-    classId: Promise<string>;
-  };
+  params: Promise<{ classId: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { classId } = params;
+  const { classId } = await params;
   const { data }: { data: Class } = await axios.get(
     `${process.env.NEXT_PUBLIC_API_URL}:8000/api/v1/classes/${classId}/?withStudents=false`
   );
