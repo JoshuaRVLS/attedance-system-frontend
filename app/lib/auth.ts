@@ -11,15 +11,14 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       },
       authorize: async (credentials) => {
         console.log(credentials.username);
-        const user: User = {
-          username: "admin",
-          password: "09071982",
-        };
         if (
-          credentials.username === user.username &&
-          credentials.password === user.password
+          credentials.username === process.env.ADMIN_USERNAME &&
+          credentials.password === process.env.ADMIN_PASSWORD
         ) {
-          return user;
+          return {
+            username: credentials.username,
+            password: credentials.password,
+          } as User;
         } else {
           return null;
         }
