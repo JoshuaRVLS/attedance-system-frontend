@@ -102,7 +102,7 @@ const AttendancePage = ({
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -300, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="w-full relative flex flex-col border-secondary border"
+              className="w-full relativew flex flex-col border-secondary border"
             >
               {cameraLoading && (
                 <Loading text="Loading Camera" duration={0.3} />
