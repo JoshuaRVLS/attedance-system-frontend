@@ -4,9 +4,8 @@ import { Class } from "@/app/types/class";
 
 type Props = {
   params: {
-    classId: string;
+    classId: Promise<string>;
   };
-  children: React.ReactNode;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -21,6 +20,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function AttedanceLayout({ children }: Props) {
+export default async function AttedanceLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return children;
 }
