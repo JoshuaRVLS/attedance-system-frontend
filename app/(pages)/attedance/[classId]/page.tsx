@@ -8,6 +8,7 @@ import { HiCamera, HiXMark } from "react-icons/hi2";
 import { AnimatePresence, motion } from "framer-motion"; // Note: Correct import is from 'framer-motion'
 import Image from "next/image";
 import Loading from "@/app/components/Loading";
+import toast from "react-hot-toast";
 
 type FormStep = "info" | "camera";
 
@@ -22,7 +23,7 @@ const AttendancePage = ({
   const [currentStep, setCurrentStep] = useState<FormStep>("info");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const [imgSrc, setImageSrc] = useState<string>("");
+  const [imageSrc, setImageSrc] = useState<string>("");
   const [cameraLoading, setCameraLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -39,7 +40,33 @@ const AttendancePage = ({
   }, [classId]);
 
   const submitData = async () => {
-    console.log("KONTOL");
+    const formData = new FormData();
+    const imageBlog = await (await fetch(imageSrc)).blob();
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("studentClassId", classId);
+    formData.append("file", imageBlog);
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}:8000/api/v1/students`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        toast.success("Student added successfully", {
+          duration: 3000,
+          position: "top-center",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const capture = async () => {
@@ -73,7 +100,7 @@ const AttendancePage = ({
       <div className="w-full max-w-md h-fit">
         <AnimatePresence mode="wait" initial={false}>
           {currentStep === "info" && (
-            <motion.form
+            <motion.div
               key="info-form"
               initial={{ x: 300, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -93,7 +120,7 @@ const AttendancePage = ({
                 value={lastName}
                 placeholder="Nama Belakang"
               />
-            </motion.form>
+            </motion.div>
           )}
           {currentStep === "camera" && (
             <motion.div
@@ -102,16 +129,16 @@ const AttendancePage = ({
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -300, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="w-full relativew flex flex-col border-secondary border"
+              className="w-full relative flex flex-col border-secondary border"
             >
               {cameraLoading && (
                 <Loading text="Loading Camera" duration={0.3} />
               )}
-              {imgSrc ? (
+              {imageSrc ? (
                 <Image
-                  src={imgSrc}
+                  src={imageSrc}
                   alt="Gambar"
-                  className="w-full h-60"
+                  className="w-full h-60 object-cover"
                   width={50}
                   height={50}
                 />
@@ -125,11 +152,11 @@ const AttendancePage = ({
                   className="w-full h-60 object-cover rounded-md"
                 />
               )}
-              <div className="w-full absolute bottom-0 left-0 flex gap-2 justify-center">
-                {!imgSrc ? (
+              <div className="w-full absolute bottom-2 left-0 flex gap-2 justify-center">
+                {!imageSrc ? (
                   <HiCamera
                     onClick={capture}
-                    className="mt-4 bg-blue-500 text-white p-2 rounded-full"
+                    className="mt-4  bg-blue-500 text-white p-2 rounded-full"
                     size={40}
                   />
                 ) : (
@@ -145,7 +172,7 @@ const AttendancePage = ({
         </AnimatePresence>
       </div>
 
-      <div className="flex gap-4 w-[90%]">
+      <div className="flex gap-4 w-[90%] md:w-fit md:min-w-40">
         {currentStep === "camera" && (
           <>
             <button
@@ -156,9 +183,9 @@ const AttendancePage = ({
             </button>
             <motion.button
               onClick={handleNext}
-              disabled={!imgSrc}
+              disabled={!imageSrc}
               animate={{
-                opacity: !imgSrc ? 0.8 : 1,
+                opacity: !imageSrc ? 0.8 : 1,
               }}
               className={` bg-secondary shadow-md w-full transition-all duration-300 hover:opacity-80 rounded-md h-12`}
             >
