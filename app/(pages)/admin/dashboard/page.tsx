@@ -2,14 +2,14 @@
 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import StudentCard from "../../components/StudentCard";
-import useSocketIO from "../../contexts/SocketIOContext";
-import LatestScannedStudent from "../../components/LatestScannedStudent";
-import Menu from "../../components/Menu";
+import StudentCard from "../../../components/StudentCard";
+import useSocketIO from "../../../contexts/SocketIOContext";
+import LatestScannedStudent from "../../../components/LatestScannedStudent";
+import Menu from "../../../components/Menu";
 import { motion, AnimatePresence } from "motion/react";
-import Loading from "../../components/Loading";
-import { useStudentStore } from "../../stores/studentStore";
-import { useSelectedClassStore } from "../../stores/selectedClassStore";
+import Loading from "../../../components/Loading";
+import { useStudentStore } from "../../../stores/studentStore";
+import { useSelectedClassStore } from "../../../stores/selectedClassStore";
 
 export default function Dashboard() {
   const { students, setStudents } = useStudentStore();

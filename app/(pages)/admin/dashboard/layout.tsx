@@ -1,9 +1,9 @@
 import { Metadata } from "next";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../../components/Navbar";
 import "@/app/globals.css";
-import Footer from "../../components/Footer";
-import SocketIOProvider from "../../providers/SocketIOProvider";
-import { auth } from "../../lib/auth";
+import Footer from "../../../components/Footer";
+import SocketIOProvider from "../../../providers/SocketIOProvider";
+import { auth } from "../../../lib/auth";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {

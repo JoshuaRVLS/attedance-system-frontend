@@ -9,6 +9,8 @@ import { AnimatePresence, motion } from "framer-motion"; // Note: Correct import
 import Image from "next/image";
 import Loading from "@/app/components/Loading";
 import toast from "react-hot-toast";
+import { Student } from "@/app/types/student";
+import Card from "@/app/components/Card";
 
 type FormStep = "info" | "camera";
 
@@ -25,6 +27,17 @@ const AttendancePage = ({
   const [lastName, setLastName] = useState<string>("");
   const [imageSrc, setImageSrc] = useState<string>("");
   const [cameraLoading, setCameraLoading] = useState<boolean>(true);
+  const [data, setData] = useState<Student | null>(null);
+
+  useEffect(() => {
+    console.log(data);
+    (async () => {
+      const data = localStorage.getItem("user");
+      if (!data) return setData(null);
+      const parsedData: Student = JSON.parse(data);
+      setData(parsedData);
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -64,6 +77,8 @@ const AttendancePage = ({
           position: "top-center",
         });
       }
+      setData(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
     } catch (error) {
       console.log(error);
     }
@@ -86,7 +101,7 @@ const AttendancePage = ({
     setCurrentStep("info");
   };
 
-  return (
+  return !data ? (
     <div className="w-full h-full flex flex-col justify-center gap-4 items-center">
       <div className="flex flex-col gap-1 items-center">
         <h1 className="font-montserrat text-2xl font-bold stroke-secondary stroke-2">
@@ -207,6 +222,8 @@ const AttendancePage = ({
         )}
       </div>
     </div>
+  ) : (
+    <Card data={data} setData={setData} />
   );
 };
 
