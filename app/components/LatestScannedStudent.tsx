@@ -19,7 +19,7 @@ const LatestScannedStudent = () => {
         });
         sound.play();
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}:8000/api/v1/students/${lastStudent}`
+          `${process.env.API_URL}/api/v1/students/${lastStudent}`
         );
         setStudentData(response.data);
       }

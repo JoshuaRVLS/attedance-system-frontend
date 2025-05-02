@@ -23,8 +23,8 @@ export default function Dashboard() {
     try {
       const response = await axios.get(
         selectedClass
-          ? `${process.env.NEXT_PUBLIC_API_URL}:8000/api/v1/classes/${selectedClass}?withStudents=true`
-          : `${process.env.NEXT_PUBLIC_API_URL}:8000/api/v1/students`
+          ? `${process.env.API_URL}/api/v1/classes/${selectedClass}?withStudents=true`
+          : `${process.env.API_URL}/api/v1/students`
       );
       console.log(response.data);
       if (response.status === 200) {

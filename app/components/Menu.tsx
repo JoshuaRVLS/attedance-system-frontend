@@ -20,7 +20,7 @@ const Menu = ({
   const getClasses = async () => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}:8000/api/v1/classes`
+        `${process.env.API_URL}/api/v1/classes`
       );
       if (response.status === 200) {
         setStudentClasses(response.data);
