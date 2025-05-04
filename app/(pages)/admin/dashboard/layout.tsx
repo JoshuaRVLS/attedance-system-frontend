@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import Navbar from "../../../components/Navbar";
 import "@/app/globals.css";
 import Footer from "../../../components/Footer";
-import SocketIOProvider from "../../../providers/SocketIOProvider";
 import { auth } from "../../../lib/auth";
 import { redirect } from "next/navigation";
 
@@ -21,11 +20,9 @@ export default async function StudentsLayout({
 
   return (
     <div className="w-full h-full">
-      <SocketIOProvider>
-        <Navbar />
-        {children}
-        <Footer />
-      </SocketIOProvider>
+      <Navbar />
+      {children}
+      <Footer />
     </div>
   );
 }

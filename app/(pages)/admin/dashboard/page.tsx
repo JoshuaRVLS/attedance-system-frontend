@@ -4,7 +4,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import StudentCard from "../../../components/StudentCard";
 import useSocketIO from "../../../contexts/SocketIOContext";
-import LatestScannedStudent from "../../../components/LatestScannedStudent";
 import Menu from "../../../components/Menu";
 import { motion, AnimatePresence } from "motion/react";
 import Loading from "../../../components/Loading";
@@ -13,7 +12,6 @@ import { useSelectedClassStore } from "../../../stores/selectedClassStore";
 
 export default function Dashboard() {
   const { students, setStudents } = useStudentStore();
-  const { lastMessage, setLastMessage } = useSocketIO()!;
   const [loading, setLoading] = useState<boolean>(true);
   const { selectedClass } = useSelectedClassStore();
   const [showQR, setShowQR] = useState<boolean>(false);
@@ -39,8 +37,7 @@ export default function Dashboard() {
   useEffect(() => {
     setStudents([]);
     getUsers();
-    setLastMessage("");
-  }, [lastMessage, setLastMessage, selectedClass]);
+  }, [selectedClass]);
 
   return (
     <div className="flex h-full items-center gap-12 justify-center ">
@@ -64,7 +61,6 @@ export default function Dashboard() {
           )}
         </AnimatePresence>
       </motion.div>
-      <LatestScannedStudent />
     </div>
   );
 }
