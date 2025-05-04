@@ -24,7 +24,7 @@ export default function NewStudent() {
     formData.append("file", file as Blob);
 
     const response = await axios.post(
-      `${process.env.API_URL}/api/v1/students`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/students`,
       formData,
       {
         withCredentials: true,
@@ -46,7 +46,7 @@ export default function NewStudent() {
   const getClasses = async () => {
     try {
       const response = await axios.get(
-        `${process.env.API_URL}/api/v1/classes`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/classes`
       );
       if (response.status === 200) {
         setStudentClasses(response.data);

@@ -13,7 +13,7 @@ const LoginPage = () => {
       await signIn("credentials", {
         username,
         password,
-        redirectTo: "/dashboard",
+        redirectTo: "/admin/dashboard",
       });
     } catch (error) {
       console.log(error);

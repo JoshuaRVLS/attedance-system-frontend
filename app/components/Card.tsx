@@ -18,7 +18,7 @@ const Card = ({
       const parsedData: Student = JSON.parse(data as string);
       try {
         const response = await axios.get(
-          `${process.env.API_URL}/api/v1/students/${parsedData.id}/photo`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/students/${parsedData.id}/photo`
         );
         if (!response.data) {
           localStorage.removeItem("user");

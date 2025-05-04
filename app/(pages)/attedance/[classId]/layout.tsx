@@ -9,7 +9,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { classId } = await params;
   const { data }: { data: Class } = await axios.get(
-    `${process.env.API_URL}/api/v1/classes/${classId}/?withStudents=false`
+    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/classes/${classId}/?withStudents=false`
   );
 
   return {

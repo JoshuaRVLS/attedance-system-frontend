@@ -43,7 +43,7 @@ const AttendancePage = ({
     (async () => {
       try {
         const { data } = await axios.get<Class>(
-          `${process.env.API_URL}/api/v1/classes/${classId}/?withStudents=false`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/classes/${classId}/?withStudents=false`
         );
         setCurrentClass(data);
       } catch (error) {
@@ -61,7 +61,7 @@ const AttendancePage = ({
     formData.append("file", imageBlog);
     try {
       const response = await axios.post(
-        `${process.env.API_URL}/api/v1/students`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/students`,
         formData,
         {
           withCredentials: true,
